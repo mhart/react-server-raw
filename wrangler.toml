@@ -1,0 +1,12 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "react-server-raw"
+compatibility_date = "2024-05-13"
+
+main = "build/server/index.js"
+assets = "public"
+minify = true
+
+[vars]
+RENDER_MODE = "ssr"
+# RENDER_MODE = "prerender"
+# RENDER_MODE = "resume"

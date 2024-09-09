@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "deploy": "NODE_ENV=production wrangler deploy",
+    "deploy:dev": "wrangler deploy",
+    "preview": "NODE_ENV=production wrangler dev",
+    "preview:dev": "wrangler dev",
+    "build": "npm run build:client && npm run build:react-server",
+    "build:dev": "npm run build:client:dev && npm run build:react-server:dev",
+    "build:react-server": "npm run build:react-server:dev -- --define:process.env.NODE_ENV='\"production\"'",
+    "build:client": "npm run build:client:dev -- --minify",
+    "build:client:dev": "esbuild src/client/bootstrap.js --outfile=public/bootstrap.js --bundle --format=esm",
+    "build:react-server:dev": "rm -rf build && cp -R src build && esbuild 'build/server/rsc/**/*.js' --bundle --splitting --outdir=build/server/rsc --allow-overwrite --platform=neutral --conditions=workerd,react-server"
+  },
+  "dependencies": {
+    "react": "^0.0.0-experimental-9598c41a20-20240603",
+    "react-dom": "^0.0.0-experimental-9598c41a20-20240603",
+    "react-server-dom-webpack": "^0.0.0-experimental-9598c41a20-20240603"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.1",
+    "wrangler": "^3.59.0"
+  }
+}
