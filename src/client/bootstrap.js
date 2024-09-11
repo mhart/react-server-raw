@@ -84,15 +84,11 @@ async function start() {
 
   globalThis.__webpack_require__ = (id) => CLIENT_REFERENCES[id];
 
-  const initialPageDataPromise = Promise.resolve(
-    await createFromReadableStream(
-      readStreamScript(async () => {
-        globalSetPageDataPromise(Promise.resolve(await initialPageDataPromise));
-      }),
-      {
-        callServer,
-      }
-    )
+  const initialPageDataPromise = createFromReadableStream(
+    readStreamScript(() =>
+      globalSetPageDataPromise((async () => initialPageDataPromise)())
+    ),
+    { callServer }
   );
 
   function LayoutHandler({ children }) {
